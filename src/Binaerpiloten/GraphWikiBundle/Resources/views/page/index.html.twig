@@ -4,6 +4,7 @@
     <h1>Page list</h1>
 	<ul>
         {% for key, letter in pages %}
+        {% if not letter is empty %}
         <li>{{ key }}
         	<ul>
         	{% for page in letter %}
@@ -17,6 +18,7 @@
             {% endfor %}
 		        </ul>
             </li>
+        {% endif %}
         {% endfor %}
    </ul>
 {% endblock %}
