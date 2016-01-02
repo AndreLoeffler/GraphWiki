@@ -1,0 +1,25 @@
+{% extends 'BinaerpilotenGraphWikiBundle::index.html.twig' %}
+
+{% block tplscript %}
+	<script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
+	<script type="text/javascript">bkLib.onDomLoaded(nicEditors.allTextAreas);</script>
+{% endblock %}
+
+
+{% block body %}
+    <h1>Page creation</h1>
+    
+    
+    bla
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('page_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

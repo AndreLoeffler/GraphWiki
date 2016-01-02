@@ -1,0 +1,9 @@
+home:
+    path:     /
+    defaults: { _controller: BinaerpilotenGraphWikiBundle:Default:index }
+user:
+    resource: "@BinaerpilotenGraphWikiBundle/Controller/UserController.php"
+    type: annotation
+page:
+    resource: "@BinaerpilotenGraphWikiBundle/Controller/PageController.php"
+    type: annotation
