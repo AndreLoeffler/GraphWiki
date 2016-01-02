@@ -34,8 +34,27 @@ class Page
      * @ORM\Column(name="content", type="text")
      */
     private $content;
+    
+	/**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="creator_id", referencedColumnName="id")
+     */
+    protected $creator;
 
-
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="editor_id", referencedColumnName="id")
+     */
+    protected $editor;
+    
+    /**
+     * @var DateTime
+     * 
+     * @ORM\Column(name="last", type="datetime")
+     */
+    
+    protected $last;
+    
     /**
      * Get id
      *
@@ -80,7 +99,6 @@ class Page
     public function setContent($content)
     {
         $this->content = $content;
-
         return $this;
     }
 
@@ -93,5 +111,42 @@ class Page
     {
         return $this->content;
     }
+
+    public function setCreator($creator)
+    {
+    	$this->creator = $creator;
+    	$this->editor = $creator;
+    	$this->last = new \DateTime('now');
+    	return $this;
+    }
+    
+    public function getCreator() 
+    {
+    	return $this->creator;
+    }
+    public function setEditor($editor)
+    {
+    	$this->editor = $editor;
+    	$this->last = new \DateTime('now');
+    	return $this;
+    }
+    
+    public function getEditor()
+    {
+    	return $this->editor;
+    }
+    
+    public function setLast($last) 
+    {
+    	$this->last = $last;
+    	
+    	return $this;
+    }
+    public function getLast()
+    {
+    	return $this->last;
+    	 
+    }
+    
 }
 

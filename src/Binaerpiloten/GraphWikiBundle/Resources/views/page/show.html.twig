@@ -8,6 +8,8 @@
     </div>
 
     <hr>
+    Erstellt von: <a href="{{ path('user_show', {'id': page.creator.id }) }}" >{{ page.creator.name }}</a> &ndash; zuletzt geändert: <a href="{{ path('user_show', {'id': page.editor.id }) }}" >{{ page.editor.name }}</a> am {{ page.last|date('d. M Y H:i') }}  
+    <hr>
     
     <ul>
         <li><a href="{{ path('page_list') }}">Alle Seiten</a></li>
