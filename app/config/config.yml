@@ -72,3 +72,9 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: GraphWikiBundle\Entity\User
+    registration:
+        form:
+            type: graphwiki_user_registration  
+    profile:
+        form:
+            type: graphwiki_user_profile

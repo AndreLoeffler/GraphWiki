@@ -1,0 +1,36 @@
+{% extends "GraphWikiBundle::index.html.twig" %}
+
+{% block fos_user_content %}
+<div class="row">
+	<div class="col-md-12">
+	    <h1>Nutzername: {{ form_widget(form.username) }}</h1>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+	    <table class="record_properties table">
+	        <tbody>
+	            <tr>
+	                <th>Name</th>
+	                <td>{{ form_widget(form.name) }}</td>
+	            </tr>
+	            <tr>
+	                <th>Email</th>
+	                <td>{{ form_widget(form.email) }}</td>
+	            </tr>
+	            <tr>
+	                <th>Passwort</th>
+            		<td>{{ form_widget(form.current_password) }}</td>
+	            </tr>
+	        </tbody>
+	    </table>
+	</div>
+</div>
+<ul>
+	<li>
+		<a class="main-menu" href="{{ path('user') }}">
+			<button type="button" class="btn">Alle User</button>
+		</a>
+	</li>
+</ul>
+{% endblock fos_user_content %}

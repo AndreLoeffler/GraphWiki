@@ -1,0 +1,43 @@
+body {
+	background: url(../images/bg.png) repeat;
+} 
+
+.form-listing * ol {
+	list-style-type: none;
+}
+
+.container {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+ul.impressum {
+	list-style-type: none;
+}
+
+span.quelle {
+	float: right;
+}
+
+.btn:focus, 
+.btn:focus:active {
+	outline: none;
+	outline-offset: 0;
+}
+
+h1,h2,h3,h4,h5 {
+	text-align: center;
+}
+
+.show-listing {
+	min-height: 200px;
+}
+.centering {
+	text-align: center;
+}
+
+#inline-login input,
+#inline-login label {
+	float: left;
+	margin-left: 10px;
+}
