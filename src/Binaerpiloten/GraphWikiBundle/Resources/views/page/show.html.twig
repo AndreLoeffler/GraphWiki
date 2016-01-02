@@ -1,36 +1,16 @@
 {% extends 'BinaerpilotenGraphWikiBundle::index.html.twig' %}
 
 {% block body %}
-    <h1>Page</h1>
+    <h1>{{ page.title }}</h1>
+    
+    <div>
+    	{{ page.content }}
+    </div>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ page.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ page.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ page.content }}</td>
-            </tr>
-        </tbody>
-    </table>
-
+    <hr>
+    
     <ul>
-        <li>
-            <a href="{{ path('page_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('page_edit', { 'id': page.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
+        <li><a href="{{ path('page_list') }}">Alle Seiten</a></li>
+        <li><a href="{{ path('page_edit', { 'pagename': page.title }) }}">Ändern</a></li>
     </ul>
 {% endblock %}

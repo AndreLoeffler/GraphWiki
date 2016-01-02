@@ -16,7 +16,7 @@ class PageType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('content')
+            ->add("content", "textarea", array('required' => false));
         ;
     }
     

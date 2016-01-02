@@ -7,19 +7,10 @@
 
 
 {% block body %}
-    <h1>Page creation</h1>
-    
-    
-    bla
-
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+    <h1>Neue Seite: {{ form_widget(form.title) }}</h1>
+    
+        {{ form_widget(form.content) }}
+        <input type="submit" value="Anlegen" />
     {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('page_index') }}">Back to the list</a>
-        </li>
-    </ul>
 {% endblock %}

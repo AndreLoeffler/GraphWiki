@@ -2,40 +2,21 @@
 
 {% block body %}
     <h1>Page list</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for page in pages %}
-            <tr>
-                <td><a href="{{ path('page_show', { 'id': page.id }) }}">{{ page.id }}</a></td>
-                <td>{{ page.title }}</td>
-                <td>{{ page.content }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('page_show', { 'id': page.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('page_edit', { 'id': page.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
+	<ul>
+        {% for key, letter in pages %}
+        <li>{{ key }}
+        	<ul>
+        	{% for page in letter %}
+        		{% if page != "" %}
+            	{% if is_granted('ROLE_USER') %}
+                <li><a href="{{ path('page_edit', { 'pagename': page }) }}">{{ page }}</a></li>
+                {% else %}
+                <li><a href="{{ path('page_show', { 'pagename': page }) }}">{{ page }}</a></li>
+                {% endif %}
+                {% endif %}
+            {% endfor %}
+		        </ul>
+            </li>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('page_new') }}">Create a new entry</a>
-        </li>
-    </ul>
+   </ul>
 {% endblock %}

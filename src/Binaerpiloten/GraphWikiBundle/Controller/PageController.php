@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Binaerpiloten\GraphWikiBundle\Entity\Page;
 use Binaerpiloten\GraphWikiBundle\Form\PageType;
 
+
 /**
  * Page controller.
  *
@@ -19,17 +20,34 @@ class PageController extends Controller
     /**
      * Lists all Page entities.
      *
-     * @Route("/", name="page_index")
+     * @Route("/", name="page_list")
      * @Method("GET")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $pages = $em->getRepository('BinaerpilotenGraphWikiBundle:Page')->findAll();
-
+        $pages = $em->getRepository('BinaerpilotenGraphWikiBundle:Page')->findBy([], ['title' => 'ASC']);
+        
+        $sorted['A'] = array();        $sorted['B'] = array();        $sorted['C'] = array();
+        $sorted['D'] = array();        $sorted['E'] = array();        $sorted['F'] = array();
+        $sorted['G'] = array();        $sorted['H'] = array();        $sorted['I'] = array();
+        $sorted['J'] = array();        $sorted['K'] = array();        $sorted['L'] = array();
+        $sorted['M'] = array();        $sorted['N'] = array();        $sorted['O'] = array();
+        $sorted['P'] = array();        $sorted['Q'] = array();        $sorted['R'] = array();
+        $sorted['S'] = array();        $sorted['T'] = array();        $sorted['U'] = array();
+        $sorted['V'] = array();        $sorted['W'] = array();        $sorted['X'] = array();
+        $sorted['Y'] = array();        $sorted['Z'] = array();
+                
+        foreach ($pages as $p) {
+        	$cap = substr($p->getTitle(),0,1);
+        	$sorted[$cap][] = $p->getTitle(); 
+        }
+        
+        foreach($sorted as $s) sort($s,SORT_STRING);
+        
+        
         return $this->render('BinaerpilotenGraphWikiBundle:page:index.html.twig', array(
-            'pages' => $pages,
+            'pages' => $sorted,
         ));
     }
 
@@ -50,7 +68,7 @@ class PageController extends Controller
             $em->persist($page);
             $em->flush();
 
-            return $this->redirectToRoute('page_show', array('id' => $page->getId()));
+            return $this->redirectToRoute('page_show', array('pagename' => $page->getTitle()));
         }
 
         return $this->render('BinaerpilotenGraphWikiBundle:page:new.html.twig', array(
@@ -62,11 +80,14 @@ class PageController extends Controller
     /**
      * Finds and displays a Page entity.
      *
-     * @Route("/{id}", name="page_show")
+     * @Route("/{pagename}", name="page_show")
      * @Method("GET")
      */
-    public function showAction(Page $page)
+    public function showAction($pagename)
     {
+    	$repo = $this->getDoctrine()->getRepository('BinaerpilotenGraphWikiBundle:Page');
+    	$page = $repo->findOneByTitle($pagename); 
+    	
         $deleteForm = $this->createDeleteForm($page);
 
         return $this->render('BinaerpilotenGraphWikiBundle:page:show.html.twig', array(
@@ -78,11 +99,14 @@ class PageController extends Controller
     /**
      * Displays a form to edit an existing Page entity.
      *
-     * @Route("/{id}/edit", name="page_edit")
+     * @Route("/{pagename}/edit", name="page_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Page $page)
+    public function editAction(Request $request, $pagename)
     {
+    	$repo = $this->getDoctrine()->getRepository('BinaerpilotenGraphWikiBundle:Page');
+    	$page = $repo->findOneByTitle($pagename);
+    	
         $deleteForm = $this->createDeleteForm($page);
         $editForm = $this->createForm('Binaerpiloten\GraphWikiBundle\Form\PageType', $page);
         $editForm->handleRequest($request);
@@ -92,7 +116,7 @@ class PageController extends Controller
             $em->persist($page);
             $em->flush();
 
-            return $this->redirectToRoute('page_edit', array('id' => $page->getId()));
+            return $this->redirectToRoute('page_show', array('pagename' => $page->getTitle()));
         }
 
         return $this->render('BinaerpilotenGraphWikiBundle:page:edit.html.twig', array(
@@ -105,11 +129,14 @@ class PageController extends Controller
     /**
      * Deletes a Page entity.
      *
-     * @Route("/{id}", name="page_delete")
+     * @Route("/{pagename}", name="page_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Page $page)
+    public function deleteAction(Request $request, $pagename)
     {
+    	$repo = $this->getDoctrine()->getRepository('BinaerpilotenGraphWikiBundle:Page');
+    	$page = $repo->findOneByTitle($pagename);
+    	
         $form = $this->createDeleteForm($page);
         $form->handleRequest($request);
 
@@ -119,7 +146,7 @@ class PageController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('page_index');
+        return $this->redirectToRoute('page_list');
     }
 
     /**
@@ -132,7 +159,7 @@ class PageController extends Controller
     private function createDeleteForm(Page $page)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('page_delete', array('id' => $page->getId())))
+            ->setAction($this->generateUrl('page_delete', array('pagename' => $page->getTitle())))
             ->setMethod('DELETE')
             ->getForm()
         ;
