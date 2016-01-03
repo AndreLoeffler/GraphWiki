@@ -3,6 +3,7 @@
 namespace Binaerpiloten\GraphWikiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Page
@@ -55,6 +56,17 @@ class Page
     
     protected $last;
     
+    /**
+     * @ORM\ManyToMany(targetEntity="Page", mappedBy="isTarget")
+     */
+     private $hasTarget;
+
+     /**
+      * @ORM\ManyToMany(targetEntity="Page", inversedBy="hasTarget")
+      * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
+      */
+     private $isTarget;
+     
     /**
      * Get id
      *
@@ -145,8 +157,39 @@ class Page
     public function getLast()
     {
     	return $this->last;
-    	 
     }
     
+    public function __construct() {
+    	$this->isTarget = new ArrayCollection();
+    	$this->hasTarget = new ArrayCollection();
+    }   
+    
+public function getIsTarget() {
+    	return $this->isTarget;
+    }
+    public function addIsTarget(Page $p) {
+    	if (!$this->isTarget->contains($p)) {
+    		$this->isTarget->add($p);
+    	}
+    	
+    	return $this;
+    }
+    public function removeIsTarget(Page $p) {
+    	$this->isTarget->remove($p);
+    }
+    
+    public function getHasTarget() {
+    	return $this->hasTarget;
+    }
+    public function addHasTarget(Page $p) {
+    	if (!$this->hasTarget->contains($p)) {
+    		$this->hasTarget->add($p);
+    	}
+    	 
+    	return $this;
+    }
+    public function removeHasTarget(Page $p) {
+    	$this->hasTarget->remove($p);
+    }
 }
 

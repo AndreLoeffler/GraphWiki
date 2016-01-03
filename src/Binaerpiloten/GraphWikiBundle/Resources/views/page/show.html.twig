@@ -15,4 +15,12 @@
         <li><a href="{{ path('page_list') }}">Alle Seiten</a></li>
         <li><a href="{{ path('page_edit', { 'pagename': page.title }) }}">Ändern</a></li>
     </ul>
+    
+    <ul>
+    	<li>top</li>
+    	{% for l in page.hasTarget %}
+    		<li>{{ l.title }}</li>
+    	{% endfor %}
+    	<li>bottom</li>
+    </ul>
 {% endblock %}

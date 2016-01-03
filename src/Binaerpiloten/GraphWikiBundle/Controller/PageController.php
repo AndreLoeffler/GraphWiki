@@ -17,6 +17,9 @@ use Binaerpiloten\GraphWikiBundle\Form\PageType;
  */
 class PageController extends Controller
 {
+	
+	private $link_regEx = "/\{[a-zA-Z0-9]+\}/";
+	
     /**
      * Lists all Page entities.
      *
@@ -65,6 +68,7 @@ class PageController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
         	$page->setCreator($this->get('security.context')->getToken()->getUser());
+        	$this->extractLinks($page);
             $em = $this->getDoctrine()->getManager();
             $em->persist($page);
             $em->flush();
@@ -90,7 +94,7 @@ class PageController extends Controller
     	$page = $repo->findOneByTitle($pagename); 
     	
         $deleteForm = $this->createDeleteForm($page);
-
+        
         return $this->render('BinaerpilotenGraphWikiBundle:page:show.html.twig', array(
             'page' => $page,
             'delete_form' => $deleteForm->createView(),
@@ -114,6 +118,7 @@ class PageController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
         	$page->setEditor($this->get('security.context')->getToken()->getUser());
+        	$this->extractLinks($page);
             $em = $this->getDoctrine()->getManager();
             $em->persist($page);
             $em->flush();
@@ -165,5 +170,30 @@ class PageController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+    
+    private function extractLinks(\Binaerpiloten\GraphWikiBundle\Entity\Page $page) {
+    	$content = $page->getContent();
+    	$links = array();
+    	$repo = $this->getDoctrine()->getRepository('BinaerpilotenGraphWikiBundle:Page');
+    	
+    	if (preg_match_all($this->link_regEx,$content,$links)) {
+
+    		foreach ($links[0] as $link) {
+    			$name = trim(trim($link, "{"),"}");
+    			echo $name;
+    			/*
+    			 */
+		    	$target = $repo->findOneByTitle($name); 
+		    	
+		    	if($target == null) {
+		    		// create empty page (make page autocreateable)
+		    	}
+    			$page->addHasTarget($target);
+    			$target->addIsTarget($page);
+    			
+	    	}
+	    	
+    	} //if preg_match_all ende
     }
 }
